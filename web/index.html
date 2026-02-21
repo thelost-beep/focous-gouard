@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusGuard | AI Focus Protector</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- MediaPipe Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <span class="shield-icon">🛡️</span>
+                <h1>Focus<span>Guard</span></h1>
+            </div>
+            <div class="session-stats">
+                <div class="stat-item">
+                    <span class="stat-label">FOCUS TIME</span>
+                    <span id="focus-time" class="stat-value">00:00</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-label">DISTRACTIONS</span>
+                    <span id="distraction-count" class="stat-value">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <div class="video-section">
+                <div class="video-wrapper">
+                    <video id="input-video" playsinline></video>
+                    <canvas id="output-canvas"></canvas>
+                    <div id="status-badge" class="badge focused">FOCUSED</div>
+                    <div id="alert-overlay" class="hidden">
+                        <div class="alert-content">
+                            <h2 id="alert-text">HEY! GET BACK TO WORK!</h2>
+                            <p>Distraction detected for 2+ seconds</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="controls-panel">
+                    <button id="start-btn" class="primary-btn">START GUARDING</button>
+                    <button id="stop-btn" class="secondary-btn hidden">STOP</button>
+                </div>
+            </div>
+
+            <aside class="info-section">
+                <div class="card">
+                    <h3>How it Works</h3>
+                    <ul>
+                        <li><span class="dot"></span> <strong>Head Tracking</strong>: Detects if you're looking down at your phone.</li>
+                        <li><span class="dot"></span> <strong>Eye Tracking</strong>: Notices if you're looking away or nodding off.</li>
+                        <li><span class="dot"></span> <strong>Audio Nudge</strong>: Plays a funny alert to snap you back to focus!</li>
+                    </ul>
+                </div>
+                <div class="card privacy-card">
+                    <h3>🔒 Privacy First</h3>
+                    <p>All AI processing happens <strong>locally</strong> in your browser. No video is ever sent to any server. Your privacy is 100% guarded.</p>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Audio Elements -->
+        <audio id="audio-a" src="../abey-uth-jaa-saale.mp3" preload="auto"></audio>
+        <audio id="audio-b" src="../uth-jaa-no-censor.mp3" preload="auto"></audio>
+
+        <footer>
+            <p>Built for Focus by <a href="https://github.com/thelost-beep" target="_blank">thelost-beep</a></p>
+        </footer>
+    </div>
+
+    <!-- Background Decoration -->
+    <div class="bg-glow"></div>
+    <div class="bg-circles">
+        <div class="circle c1"></div>
+        <div class="circle c2"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,6 +1,12 @@
 # 🛡️ FocusGuard: Your Personal Focus Protector
 
-**FocusGuard** is a simple, smart app that helps you stay focused while working or studying. It uses your computer's camera to see if you're getting distracted (like looking down at your phone for too long) and gently nudges you back to work with a funny alert!
+**FocusGuard** is a simple, smart app that helps you stay focused while working or studying. It uses AI to see if you're getting distracted and gently nudges you back to work with a funny alert!
+
+---
+
+## 🌐 Try it Online (No Install Needed!)
+You can now use FocusGuard directly in your browser!
+**[👉 Open FocusGuard Web](https://thelost-beep.github.io/focous-gouard/web/)**
 
 ---
 
@@ -10,11 +16,11 @@ We all get distracted. Whether it's scrolling on your phone or nodding off durin
 - **📱 Phone Trap Detection**: Noticed when you're looking down too long.
 - **😴 Sleep Alert**: Wakes you up if your eyes start to close.
 - **💡 Smart Tracking**: Only alerts you when you've *really* lost focus.
-- **📊 Focus Stats**: See how long you stayed focused and how many times you got distracted.
+- **🔒 Private & Secure**: All processing happens in your browser. No data is saved or sent anywhere.
 
 ---
 
-## 🚀 Easy Setup (No Tech Skills Needed!)
+## 🚀 Easy Setup (For Desktop Version)
 
 ### 1. Requirements
 You just need **Python** installed on your computer. If you don't have it, download it from [python.org](https://www.python.org/).
@@ -34,18 +40,19 @@ python focusguard.py
 ---
 
 ## 🎮 How to Use
-- **Set Up**: Sit comfortably in front of your webcam.
-- **Focus**: Work as usual. The screen will show "FOCUSED".
-- **Distraction**: If you look down or close your eyes for more than 2 seconds, the alarm will play!
-- **Regain Focus**: Just look back at the screen to stop the alarm.
-- **Quit**: Press the **'q'** key on your keyboard to stop the app.
+1. **Open the App**: Either the web link or the Python script.
+2. **Set Up**: Sit comfortably in front of your webcam.
+3. **Focus**: Work as usual. The screen will show "FOCUSED".
+4. **Distraction**: If you look down or close your eyes for more than 2 seconds, the alarm will play!
+5. **Quit**: In Python, press **'q'**. In Web, just close the tab or press "STOP".
 
 ---
 
 ## 🛠️ Controls
 | Key | Action |
 | :--- | :--- |
-| **Q** | Close FocusGuard and see your session summary |
+| **Q** | (Python) Close FocusGuard |
+| **STOP** | (Web) Stop guarding |
 
 ---
 
