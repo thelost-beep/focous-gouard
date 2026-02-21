@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +12,10 @@
     <!-- MediaPipe Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+        crossorigin="anonymous"></script>
 </head>
+
 <body class="dark-theme">
     <div class="app-container">
         <!-- Header -->
@@ -58,21 +61,25 @@
                 <div class="card">
                     <h3>How it Works</h3>
                     <ul>
-                        <li><span class="dot"></span> <strong>Head Tracking</strong>: Detects if you're looking down at your phone.</li>
-                        <li><span class="dot"></span> <strong>Eye Tracking</strong>: Notices if you're looking away or nodding off.</li>
-                        <li><span class="dot"></span> <strong>Audio Nudge</strong>: Plays a funny alert to snap you back to focus!</li>
+                        <li><span class="dot"></span> <strong>Head Tracking</strong>: Detects if you're looking down at
+                            your phone.</li>
+                        <li><span class="dot"></span> <strong>Eye Tracking</strong>: Notices if you're looking away or
+                            nodding off.</li>
+                        <li><span class="dot"></span> <strong>Audio Nudge</strong>: Plays a funny alert to snap you back
+                            to focus!</li>
                     </ul>
                 </div>
                 <div class="card privacy-card">
                     <h3>🔒 Privacy First</h3>
-                    <p>All AI processing happens <strong>locally</strong> in your browser. No video is ever sent to any server. Your privacy is 100% guarded.</p>
+                    <p>All AI processing happens <strong>locally</strong> in your browser. No video is ever sent to any
+                        server. Your privacy is 100% guarded.</p>
                 </div>
             </aside>
         </main>
 
         <!-- Audio Elements -->
-        <audio id="audio-a" src="../abey-uth-jaa-saale.mp3" preload="auto"></audio>
-        <audio id="audio-b" src="../uth-jaa-no-censor.mp3" preload="auto"></audio>
+        <audio id="audio-a" src="abey-uth-jaa-saale.mp3" preload="auto"></audio>
+        <audio id="audio-b" src="uth-jaa-no-censor.mp3" preload="auto"></audio>
 
         <footer>
             <p>Built for Focus by <a href="https://github.com/thelost-beep" target="_blank">thelost-beep</a></p>
@@ -88,4 +95,5 @@
 
     <script src="app.js"></script>
 </body>
+
 </html>
