@@ -5,8 +5,8 @@
 ---
 
 ## 🌐 Try it Online (No Install Needed!)
-You can now use FocusGuard directly in your browser!
-**[👉 Open FocusGuard Web](https://thelost-beep.github.io/focous-gouard/web/)**
+- **[Live on Vercel (Recommended)](https://focous-gouard.vercel.app)**
+- **[Live on GitHub Pages](https://thelost-beep.github.io/focous-gouard/web/)**
 
 ---
 
