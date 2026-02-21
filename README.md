@@ -10,6 +10,21 @@
 
 ---
 
+## 🤔 Which Version Should You Use?
+
+| Feature | 🌐 Web Version | 🐍 Python Version |
+| :--- | :--- | :--- |
+| **Setup** | Zero install (Just click link) | Requires Python & `pip` install |
+| **Best For** | Quick sessions & Easy sharing | Advanced users & Modding |
+| **Performance** | Good (Fast in browser) | Excellent (Native speed) |
+| **Privacy** | 100% Local (Safe) | 100% Local (Safe) |
+| **Reliability** | Depends on Browser/WebGL | Locked-in performance |
+
+> [!TIP]
+> **Use the Web version** if you want to start instantly or share with friends. **Use the Python version** if you want the most accurate tracking or want to look at the code!
+
+---
+
 ## ✨ Why You Need This
 We all get distracted. Whether it's scrolling on your phone or nodding off during a late-night session, **FocusGuard** is like a friend sitting next to you, making sure you stay on track!
 
