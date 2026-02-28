@@ -23,11 +23,12 @@ const valGaze = document.getElementById('val-gaze');
 
 // --- Configuration ---
 const THRESHOLDS = {
-    PITCH_DOWN: -4,       // head tilted forward (degrees) - massively relaxed from -8
-    YAW_DISTRACTED: 45,   // head turned left/right (degrees) - allows looking somewhat sideways
+    PITCH_MAX_DOWN: -20,  // slumping to sleep or phone buried in lap (DISTRACTED)
+    PITCH_MIN_DOWN: -2,   // very slight bow / looking mostly straight (FOCUSED)
+    YAW_DISTRACTED: 45,   // head turned left/right (degrees)
     GAZE_DOWN: 0.58,      // iris below threshold
     EAR_CLOSED: 0.18,     // eye aspect ratio
-    DELAY_MS: 35000,      // time before alarm (ms) - 35 seconds of distraction grace period
+    DELAY_MS: 4000,       // 4 seconds grace period to allow momentary glances
     SLEEP_DELAY_MS: 3000  // eyes closed time before alarm
 };
 
@@ -176,7 +177,9 @@ function onResults(results) {
         valYaw.innerText = Math.abs(yaw).toFixed(1);
         valGaze.innerText = gaze.toFixed(2);
 
-        const isHeadDown = pitch < THRESHOLDS.PITCH_DOWN;
+        const isSlumpingDown = pitch < THRESHOLDS.PITCH_MAX_DOWN;
+        const isBowingToRead = pitch < THRESHOLDS.PITCH_MIN_DOWN && pitch >= THRESHOLDS.PITCH_MAX_DOWN;
+
         const isHeadTurned = Math.abs(yaw) > THRESHOLDS.YAW_DISTRACTED;
         const isGazeDown = gaze > THRESHOLDS.GAZE_DOWN;
         const isClosed = ear < THRESHOLDS.EAR_CLOSED;
@@ -184,13 +187,15 @@ function onResults(results) {
         const now = Date.now();
 
         // --- Focus Logic ---
-        // A user is reading/writing if their head is down, not turned away, eyes open, and gaze is focused down.
-        const isReading = isHeadDown && !isHeadTurned && !isClosed && isGazeDown;
+        // Reading/writing: Head pitched in the "reading bracket", head not turned away sideways, eyes open, and gaze is down on the desk.
+        const isReading = isBowingToRead && !isHeadTurned && !isClosed;
 
-        // A user is distracted if their head is turned sideways, eyes are closed (sleeping), 
-        // or they are looking away from the screen/book (head down but not reading).
-        // If not head down, and not head turned, and not closed, user should be focused on the screen.
-        const distractedSignal = isHeadTurned || isClosed || (isHeadDown && !isReading);
+        // A user is distracted if:
+        // 1. Their head is turned completely sideways.
+        // 2. Eyes are closed (sleeping).
+        // 3. Head is bowed TOO FAR down (slumping/phone buried in lap).
+        // 4. If they are slightly bowed down, but NOT reading/writing (e.g. staring at ceiling or just swaying).
+        const distractedSignal = isHeadTurned || isClosed || isSlumpingDown || (isBowingToRead && !isReading && !isGazeDown);
 
         if (focusState === 'FOCUSED' || focusState === 'READING') {
             if (distractedSignal) {
