@@ -44,6 +44,11 @@
                     <video id="input-video" playsinline></video>
                     <canvas id="output-canvas"></canvas>
                     <div id="status-badge" class="badge focused">FOCUSED</div>
+                    <div id="live-metrics" class="metrics-overlay">
+                        P: <span id="val-pitch">0</span>° |
+                        Y: <span id="val-yaw">0</span>° |
+                        G: <span id="val-gaze">0.0</span>
+                    </div>
                     <div id="alert-overlay" class="hidden">
                         <div class="alert-content">
                             <h2 id="alert-text">HEY! GET BACK TO WORK!</h2>
@@ -58,6 +63,36 @@
             </div>
 
             <aside class="info-section">
+                <!-- Open Source / Feedback Section -->
+                <div class="card action-card">
+                    <h3>🛠️ Help Improve FocusGuard</h3>
+                    <p>Have an idea for a massive new feature? Want to report a bug? Join us on GitHub to suggest
+                        changes!</p>
+                    <a href="https://github.com/thelost-beep/focous-gouard/issues" target="_blank"
+                        class="github-star-btn suggestion-btn">
+                        💡 Suggest a Feature
+                    </a>
+                    <a href="https://github.com/thelost-beep/focous-gouard" target="_blank" class="github-star-btn">
+                        ⭐ Star us on GitHub
+                    </a>
+                </div>
+
+                <!-- Community Support Section -->
+                <div class="card community-card">
+                    <h3>🌟 Community Shoutouts</h3>
+                    <p>A huge thanks to our Instagram community for constructive feedback that helped shape this
+                        version:</p>
+                    <ul class="shoutout-list">
+                        <li><span class="insta-icon">📸</span> <strong><a href="https://instagram.com/hollow_quotezz"
+                                    target="_blank"
+                                    style="color:var(--text-main); text-decoration:none;">@hollow_quotezz</a></strong>
+                        </li>
+                        <li><span class="insta-icon">📸</span> <strong><a href="https://instagram.com/32vin.k"
+                                    target="_blank"
+                                    style="color:var(--text-main); text-decoration:none;">@32vin.k</a></strong></li>
+                    </ul>
+                </div>
+
                 <div class="card">
                     <h3>How it Works</h3>
                     <ul>
@@ -82,7 +117,11 @@
         <audio id="audio-b" src="uth-jaa-no-censor.mp3" preload="auto"></audio>
 
         <footer>
-            <p>Built for Focus by <a href="https://github.com/thelost-beep" target="_blank">thelost-beep</a></p>
+            <div class="visitor-counter">
+                <img src="https://profile-counter.glitch.me/focusguard-thelostbeep/count.svg" alt="Visitor Count">
+            </div>
+            <p>Built for Focus by <a href="https://github.com/thelost-beep" target="_blank">thelost-beep</a> (IG: <a
+                    href="https://instagram.com/aftab.builds" target="_blank">@aftab.builds</a>)</p>
         </footer>
     </div>
 

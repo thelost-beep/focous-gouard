@@ -121,7 +121,7 @@ main {
     border-radius: 24px;
     overflow: hidden;
     border: 2px solid var(--glass-border);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 #input-video {
@@ -138,6 +138,26 @@ main {
     width: 100%;
     height: 100%;
     transform: scaleX(-1);
+}
+
+.metrics-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-family: monospace;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.metrics-overlay span {
+    color: var(--primary);
+    font-weight: bold;
 }
 
 .badge {
@@ -163,6 +183,12 @@ main {
     background: var(--accent-yellow);
     color: #000;
     box-shadow: 0 0 20px var(--accent-yellow);
+}
+
+.badge.reading {
+    background: var(--secondary);
+    color: #fff;
+    box-shadow: 0 0 20px var(--secondary);
 }
 
 .badge.distracted {
@@ -198,9 +224,19 @@ main {
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
 }
 
 .alert-content h2 {
@@ -296,6 +332,54 @@ button {
     background: linear-gradient(135deg, rgba(112, 0, 255, 0.1), rgba(0, 224, 255, 0.1));
 }
 
+.community-card {
+    background: linear-gradient(135deg, rgba(255, 60, 60, 0.1), rgba(255, 235, 0, 0.05));
+}
+
+.shoutout-list {
+    margin: 1rem 0;
+    padding-left: 0.5rem;
+}
+
+.shoutout-list li {
+    font-size: 1rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+}
+
+.insta-icon {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+.github-star-btn {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: background 0.2s;
+}
+
+.github-star-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.suggestion-btn {
+    background: linear-gradient(135deg, var(--secondary), rgba(0, 224, 255, 0.4));
+    margin-bottom: 0.5rem;
+}
+
+.suggestion-btn:hover {
+    background: linear-gradient(135deg, var(--primary), rgba(112, 0, 255, 0.4));
+}
+
 /* Decoration */
 .bg-glow {
     position: fixed;
@@ -304,7 +388,7 @@ button {
     width: 100vw;
     height: 100vh;
     background: radial-gradient(circle at 10% 20%, rgba(0, 224, 255, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(112, 0, 255, 0.05) 0%, transparent 40%);
+        radial-gradient(circle at 90% 80%, rgba(112, 0, 255, 0.05) 0%, transparent 40%);
     pointer-events: none;
     z-index: 1;
 }
@@ -339,6 +423,15 @@ footer {
     text-align: center;
     color: var(--text-dim);
     font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.visitor-counter img {
+    height: 30px;
+    border-radius: 6px;
 }
 
 footer a {
@@ -348,6 +441,39 @@ footer a {
 
 @media (max-width: 900px) {
     main {
-        grid-template_columns: 1fr;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .session-stats {
+        width: 100%;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .video-wrapper {
+        border-radius: 12px;
+    }
+
+    .alert-content {
+        padding: 1.5rem;
+        width: 90%;
+    }
+
+    .alert-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        padding: 1rem;
+        font-size: 1rem;
     }
 }

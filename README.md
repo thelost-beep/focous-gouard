@@ -1,78 +1,64 @@
-# 🛡️ FocusGuard: Your Personal Focus Protector
+<div align="center">
+  <h1>🛡️ FocusGuard: Your Personal Focus Protector</h1>
+  <p><strong>A smart, private AI app that helps you stay on track while working or studying.</strong></p>
+  
+  <a href="https://github.com/thelost-beep/focous-gouard/stargazers">
+    <img src="https://img.shields.io/github/stars/thelost-beep/focous-gouard?style=for-the-badge&color=00e0ff" alt="GitHub Stars" />
+  </a>
+  <img src="https://profile-counter.glitch.me/focusguard-thelostbeep/count.svg" alt="Visitor Count" />
+</div>
 
-**FocusGuard** is a simple, smart app that helps you stay focused while working or studying. It uses AI to see if you're getting distracted and gently nudges you back to work with a funny alert!
+<br/>
 
----
-
-## 🌐 Try it Online (No Install Needed!)
-- **[Live on Vercel (Recommended)](https://focous-gouard.vercel.app)**
-- **[Live on GitHub Pages](https://thelost-beep.github.io/focous-gouard/)**
-
----
-
-## 🤔 Which Version Should You Use?
-
-| Feature | 🌐 Web Version | 🐍 Python Version |
-| :--- | :--- | :--- |
-| **Setup** | Zero install (Just click link) | Requires Python & `pip` install |
-| **Best For** | Quick sessions & Easy sharing | Advanced users & Modding |
-| **Performance** | Good (Fast in browser) | Excellent (Native speed) |
-| **Privacy** | 100% Local (Safe) | 100% Local (Safe) |
-| **Reliability** | Depends on Browser/WebGL | Locked-in performance |
-
-> [!TIP]
-> **Use the Web version** if you want to start instantly or share with friends. **Use the Python version** if you want the most accurate tracking or want to look at the code!
+**FocusGuard** uses local AI to detect your head pose and eye gaze. If you get distracted by scrolling on your phone or nodding off, it gives you a gentle audio nudge to get back to work!
 
 ---
 
-## ✨ Why You Need This
-We all get distracted. Whether it's scrolling on your phone or nodding off during a late-night session, **FocusGuard** is like a friend sitting next to you, making sure you stay on track!
-
-- **📱 Phone Trap Detection**: Noticed when you're looking down too long.
+## 🌟 Why You Need This
+We all get distracted during long study or work sessions. FocusGuard is built to be ultra-forgiving for actual studying, but strict on distractions:
+- **📖 Let's You Study**: Comfortably bow your head to read a book or write notes—the AI knows you are working and won't penalize you!
+- **📱 Phone Trap Detection**: Noticed when you're looking sideways or spacing out for too long (35+ second grace period).
 - **😴 Sleep Alert**: Wakes you up if your eyes start to close.
-- **💡 Smart Tracking**: Only alerts you when you've *really* lost focus.
-- **🔒 Private & Secure**: All processing happens in your browser. No data is saved or sent anywhere.
+- **🔒 Privacy First**: All facial processing happens locally on your device. **No video is ever recorded or sent anywhere.**
 
 ---
 
-## 🚀 Easy Setup (For Desktop Version)
+## 🌐 Try it Instantly (No Install Needed!)
+The absolute best way to experience FocusGuard is through the browser. It works instantly on any device with a webcam.
+- 👉 **[Live on Vercel (Recommended)](https://focous-gouard.vercel.app)**
+- 👉 **[Live on GitHub Pages](https://thelost-beep.github.io/focous-gouard/)**
 
-### 1. Requirements
-You just need **Python** installed on your computer. If you don't have it, download it from [python.org](https://www.python.org/).
-
-### 2. Install the "Brain"
-Open your terminal (or Command Prompt) and type this:
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Start Guarding!
-Run the app by typing:
-```bash
-python focusguard.py
-```
+> **Love the project? Please [⭐ Star us on GitHub](https://github.com/thelost-beep/focous-gouard) to support the development!**
 
 ---
 
-## 🎮 How to Use
-1. **Open the App**: Either the web link or the Python script.
-2. **Set Up**: Sit comfortably in front of your webcam.
-3. **Focus**: Work as usual. The screen will show "FOCUSED".
-4. **Distraction**: If you look down or close your eyes for more than 2 seconds, the alarm will play!
-5. **Quit**: In Python, press **'q'**. In Web, just close the tab or press "STOP".
+## 💻 Running the Desktop (Python) Version
+If you prefer running a native desktop application, you can use the Python version for ultimate performance.
+
+### Prerequisites
+1. Ensure you have **Python** installed.
+2. A working webcam.
+
+### Installation
+1. Clone the repository and navigate into it.
+2. Install the required libraries:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Run the script:
+   ```bash
+   python focusguard.py
+   ```
+4. Press **'q'** at any time to quit the Python app.
 
 ---
 
-## 🛠️ Controls
-| Key | Action |
-| :--- | :--- |
-| **Q** | (Python) Close FocusGuard |
-| **STOP** | (Web) Stop guarding |
+## 💖 Community Shoutouts
+A massive thank you to our community for helping shape this project and making the distraction logic more practical for real students! Special thanks to:
+*   📸 Instagram: **[@hollow_quotezz](https://instagram.com/hollow_quotezz)**
+*   📸 Instagram: **[@32vin.k](https://instagram.com/32vin.k)**
 
 ---
-
-## 👤 Author
-Follow the journey on GitHub: [thelost-beep](https://github.com/thelost-beep)
-
----
-*Made with ❤️ to help you achieve more.*
+<div align="center">
+    <i>Built for focus by <a href="https://github.com/thelost-beep">thelost-beep</a>. Made with ❤️ to help you achieve more.</i>
+</div>

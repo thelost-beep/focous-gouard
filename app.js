@@ -17,18 +17,23 @@ const distractionCountEl = document.getElementById('distraction-count');
 const audioA = document.getElementById('audio-a');
 const audioB = document.getElementById('audio-b');
 
+const valPitch = document.getElementById('val-pitch');
+const valYaw = document.getElementById('val-yaw');
+const valGaze = document.getElementById('val-gaze');
+
 // --- Configuration ---
 const THRESHOLDS = {
-    PITCH_DOWN: -12,      // head tilted forward (degrees)
-    GAZE_DOWN: 0.65,     // iris below threshold
-    EAR_CLOSED: 0.18,    // eye aspect ratio
-    DELAY_MS: 1500,      // time before alarm (ms)
-    SLEEP_DELAY_MS: 2000 // eyes closed time before alarm (ms)
+    PITCH_DOWN: -4,       // head tilted forward (degrees) - massively relaxed from -8
+    YAW_DISTRACTED: 45,   // head turned left/right (degrees) - allows looking somewhat sideways
+    GAZE_DOWN: 0.58,      // iris below threshold
+    EAR_CLOSED: 0.18,     // eye aspect ratio
+    DELAY_MS: 35000,      // time before alarm (ms) - 35 seconds of distraction grace period
+    SLEEP_DELAY_MS: 3000  // eyes closed time before alarm
 };
 
 // --- State ---
 let isGuarding = false;
-let focusState = 'FOCUSED'; // FOCUSED, WARNING, DISTRACTED
+let focusState = 'FOCUSED'; // FOCUSED, READING, WARNING, DISTRACTED
 let distractionCount = 0;
 let focusStartTime = Date.now();
 let lastUpdateTime = Date.now();
@@ -46,29 +51,50 @@ function calculatePitch(landmarks) {
     const nose = landmarks[1];
     const chin = landmarks[152];
     const top = landmarks[10];
-    
+
     // Simple ratio-based pitch (approximate but effective for relative motion)
     const midY = (top.y + chin.y) / 2;
     const verticalSpan = chin.y - top.y;
     const noseOffset = nose.y - midY;
-    
+
     // Convert to "degrees" relative to neutral (approximate)
-    return (noseOffset / verticalSpan) * -90; 
+    return (noseOffset / verticalSpan) * -90;
 }
+
+function calculateYaw(landmarks) {
+    // Simplified yaw estimation based on horizontal distance
+    // between outer corners of eyes and nose tip.
+    const nose = landmarks[1];
+    const leftEyeOuter = landmarks[33];
+    const rightEyeOuter = landmarks[263];
+
+    // Distance from nose to left eye vs node to right eye
+    const leftDist = Math.abs(nose.x - leftEyeOuter.x);
+    const rightDist = Math.abs(nose.x - rightEyeOuter.x);
+
+    const faceSpan = Math.abs(leftEyeOuter.x - rightEyeOuter.x);
+    if (faceSpan === 0) return 0; // Avoid divide by zero
+
+    // Calculate difference ratio
+    const diff = leftDist - rightDist;
+    // Map ratio to an approximate degree (-90 to 90)
+    return (diff / faceSpan) * 90;
+}
+
 
 function calculateGazeRatio(landmarks) {
     // Average vertical position of irises relative to eye lids
     const leftIris = landmarks[468];
     const rightIris = landmarks[473];
-    
+
     const leftTop = landmarks[159].y;
     const leftBottom = landmarks[145].y;
     const rightTop = landmarks[386].y;
     const rightBottom = landmarks[374].y;
-    
+
     const leftRatio = (leftIris.y - leftTop) / (leftBottom - leftTop);
     const rightRatio = (rightIris.y - rightTop) / (rightBottom - rightTop);
-    
+
     return (leftRatio + rightRatio) / 2;
 }
 
@@ -80,24 +106,25 @@ function calculateEAR(landmarks) {
         const h = Math.hypot(landmarks[p1].x - landmarks[p4].x, landmarks[p1].y - landmarks[p4].y);
         return (v1 + v2) / (2.0 * h);
     }
-    
+
     const leftEAR = eyeEAR(33, 160, 158, 133, 153, 144);
     const rightEAR = eyeEAR(362, 387, 385, 263, 380, 373);
-    
+
     return (leftEAR + rightEAR) / 2.0;
 }
 
 function updateStats() {
     if (!isGuarding) return;
-    
+
     const now = Date.now();
     const dt = now - lastUpdateTime;
     lastUpdateTime = now;
-    
-    if (focusState === 'FOCUSED') {
+
+    // Accrue metrics for focused and reading/writing states
+    if (focusState === 'FOCUSED' || focusState === 'READING') {
         totalFocusMs += dt;
     }
-    
+
     const totalSecs = Math.floor(totalFocusMs / 1000);
     const mins = Math.floor(totalSecs / 60);
     const secs = totalSecs % 60;
@@ -125,41 +152,58 @@ function stopAlarm() {
 
 function onResults(results) {
     updateStats();
-    
+
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-    
+
     if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
         const landmarks = results.multiFaceLandmarks[0];
-        
+
         // Draw mesh for feedback
-        drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION, {color: '#C0C0C070', lineWidth: 1});
-        drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYE, {color: '#00e0ff'});
-        drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYE, {color: '#00e0ff'});
-        drawConnectors(canvasCtx, landmarks, FACEMESH_LIPS, {color: '#00e0ff'});
-        
+        drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION, { color: '#C0C0C070', lineWidth: 1 });
+        drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYE, { color: '#00e0ff' });
+        drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYE, { color: '#00e0ff' });
+        drawConnectors(canvasCtx, landmarks, FACEMESH_LIPS, { color: '#00e0ff' });
+
         // Metrics
         const pitch = calculatePitch(landmarks);
+        const yaw = calculateYaw(landmarks);
         const gaze = calculateGazeRatio(landmarks);
         const ear = calculateEAR(landmarks);
-        
+
+        // Update Live Metrics UI
+        valPitch.innerText = pitch.toFixed(1);
+        valYaw.innerText = Math.abs(yaw).toFixed(1);
+        valGaze.innerText = gaze.toFixed(2);
+
         const isHeadDown = pitch < THRESHOLDS.PITCH_DOWN;
+        const isHeadTurned = Math.abs(yaw) > THRESHOLDS.YAW_DISTRACTED;
         const isGazeDown = gaze > THRESHOLDS.GAZE_DOWN;
         const isClosed = ear < THRESHOLDS.EAR_CLOSED;
-        
+
         const now = Date.now();
-        
+
         // --- Focus Logic ---
-        const distractedSignal = isHeadDown || isGazeDown || isClosed;
-        
-        if (focusState === 'FOCUSED') {
+        // A user is reading/writing if their head is down, not turned away, eyes open, and gaze is focused down.
+        const isReading = isHeadDown && !isHeadTurned && !isClosed && isGazeDown;
+
+        // A user is distracted if their head is turned sideways, eyes are closed (sleeping), 
+        // or they are looking away from the screen/book (head down but not reading).
+        // If not head down, and not head turned, and not closed, user should be focused on the screen.
+        const distractedSignal = isHeadTurned || isClosed || (isHeadDown && !isReading);
+
+        if (focusState === 'FOCUSED' || focusState === 'READING') {
             if (distractedSignal) {
                 focusState = 'WARNING';
                 warningStartTime = now;
+            } else if (isReading) {
+                focusState = 'READING';
+            } else {
+                focusState = 'FOCUSED';
             }
         } else if (focusState === 'WARNING') {
             if (!distractedSignal) {
-                focusState = 'FOCUSED';
+                focusState = isReading ? 'READING' : 'FOCUSED';
                 warningStartTime = null;
             } else if (now - warningStartTime > THRESHOLDS.DELAY_MS) {
                 focusState = 'DISTRACTED';
@@ -168,7 +212,7 @@ function onResults(results) {
             }
         } else if (focusState === 'DISTRACTED') {
             if (!distractedSignal) {
-                focusState = 'FOCUSED';
+                focusState = isReading ? 'READING' : 'FOCUSED';
                 stopAlarm();
             }
         }
@@ -185,25 +229,27 @@ function onResults(results) {
             }
         }
     }
-    
+
     // --- Update UI ---
     statusBadge.className = `badge ${focusState.toLowerCase()}`;
     statusBadge.innerText = focusState;
-    
+
     if (focusState === 'DISTRACTED') {
         alertOverlay.classList.remove('hidden');
     } else {
         alertOverlay.classList.add('hidden');
     }
-    
+
     canvasCtx.restore();
 }
 
 // --- Init MediaPipe ---
 
-const faceMesh = new FaceMesh({locateFile: (file) => {
-    return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
-}});
+const faceMesh = new FaceMesh({
+    locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
+    }
+});
 
 faceMesh.setOptions({
     maxNumFaces: 1,
@@ -217,7 +263,7 @@ faceMesh.onResults(onResults);
 const camera = new Camera(videoElement, {
     onFrame: async () => {
         if (isGuarding) {
-            await faceMesh.send({image: videoElement});
+            await faceMesh.send({ image: videoElement });
         }
     },
     width: 640,
@@ -230,14 +276,14 @@ startBtn.addEventListener('click', () => {
     isGuarding = true;
     startBtn.classList.add('hidden');
     stopBtn.classList.remove('hidden');
-    
+
     focusStartTime = Date.now();
     lastUpdateTime = Date.now();
-    
+
     // Force audio context start (required by modern browsers)
-    audioA.play().catch(() => {});
+    audioA.play().catch(() => { });
     audioA.pause();
-    
+
     camera.start();
 });
 
@@ -245,10 +291,10 @@ stopBtn.addEventListener('click', () => {
     isGuarding = false;
     startBtn.classList.remove('hidden');
     stopBtn.classList.add('hidden');
-    
+
     stopAlarm();
     camera.stop();
-    
+
     focusState = 'FOCUSED';
     statusBadge.className = 'badge focused';
     statusBadge.innerText = 'FOCUSED';
